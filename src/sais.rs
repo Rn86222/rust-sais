@@ -77,74 +77,77 @@ impl BucketTable {
         self.bucket_exists[name] = true;
     }
 
-    // fn display(&self, length: usize) {
-    //     for i in 0..self.bucket_num {
-    //         if self.bucket_exists[i] {
-    //             for j in 0..self.buckets[i].forward_index {
-    //                 let j = j as usize;
-    //                 for k in self.buckets[i].data[j] .index..length {
-    //                     print!("{} ", self.string[k]);
-    //                 }
-    //                 println!(" {}", self.buckets[i].data[j].is_lms as u8);
-    //             }
-    //             for j in (self.buckets[i].backward_index + 1)..(self.buckets[i].size as i32) {
-    //                 let j = j as usize;
-    //                 for k in self.buckets[i].data[j] .index..length {
-    //                     print!("{} ", self.string[k]);
-    //                 }
-    //                 println!(" {}", self.buckets[i].data[j].is_lms as u8);
-    //             }
-    //         }
-    //     }
-    // }
+    #[allow(dead_code)]
+    fn display(&self, length: usize) {
+        for i in 0..self.bucket_num {
+            if self.bucket_exists[i] {
+                for j in 0..self.buckets[i].forward_index {
+                    let j = j as usize;
+                    for k in self.buckets[i].data[j].index..length {
+                        print!("{} ", self.string[k]);
+                    }
+                    println!(" {}", self.buckets[i].data[j].is_lms as u8);
+                }
+                for j in (self.buckets[i].backward_index + 1)..(self.buckets[i].size as i32) {
+                    let j = j as usize;
+                    for k in self.buckets[i].data[j].index..length {
+                        print!("{} ", self.string[k]);
+                    }
+                    println!(" {}", self.buckets[i].data[j].is_lms as u8);
+                }
+            }
+        }
+    }
 
-    // fn display_as_suffix_array(&self, length: usize) {
-    //     for i in 1..self.bucket_num {
-    //         if self.bucket_exists[i] {
-    //             for j in 0..self.buckets[i].forward_index {
-    //                 let j = j as usize;
-    //                 for k in self.buckets[i].data[j] .index..length {
-    //                     print!("{}", self.string[k] as u8 as char);
-    //                 }
-    //                 println!("");
-    //             }
-    //             for j in (self.buckets[i].backward_index + 1)..(self.buckets[i].size as i32) {
-    //                 let j = j as usize;
-    //                 for k in self.buckets[i].data[j] .index..length {
-    //                     print!("{}", self.string[k] as u8 as char);
-    //                 }
-    //                 println!("");
-    //             }
-    //         }
-    //     }
-    // }
+    #[allow(dead_code)]
+    fn display_as_suffix_array(&self, length: usize) {
+        for i in 1..self.bucket_num {
+            if self.bucket_exists[i] {
+                for j in 0..self.buckets[i].forward_index {
+                    let j = j as usize;
+                    for k in self.buckets[i].data[j].index..length {
+                        print!("{}", self.string[k] as u8 as char);
+                    }
+                    println!("");
+                }
+                for j in (self.buckets[i].backward_index + 1)..(self.buckets[i].size as i32) {
+                    let j = j as usize;
+                    for k in self.buckets[i].data[j].index..length {
+                        print!("{}", self.string[k] as u8 as char);
+                    }
+                    println!("");
+                }
+            }
+        }
+    }
 
-    // fn suffix_array_to_string_vec(&self, length: usize) -> Vec<String> {
-    //     let mut string_vec: Vec<String> = vec![];
-    //     for i in 1..self.bucket_num {
-    //         if self.bucket_exists[i] {
-    //             for j in 0..self.buckets[i].forward_index {
-    //                 let j = j as usize;
-    //                 string_vec.push(
-    //                     self.string[(self.buckets[i].data[j] .index)..(length - 1)]
-    //                         .iter()
-    //                         .map(|x| *x as u8 as char)
-    //                         .collect(),
-    //                 );
-    //             }
-    //             for j in (self.buckets[i].backward_index + 1)..(self.buckets[i].size as i32) {
-    //                 let j = j as usize;
-    //                 string_vec.push(
-    //                     self.string[(self.buckets[i].data[j] .index)..(length - 1)]
-    //                         .iter()
-    //                         .map(|x| *x as u8 as char)
-    //                         .collect(),
-    //                 );
-    //             }
-    //         }
-    //     }
-    //     string_vec
-    // }
+    #[allow(dead_code)]
+    fn suffix_array_to_string_vec(&self, length: usize) -> Vec<String> {
+        let mut string_vec: Vec<String> = vec![];
+        for i in 1..self.bucket_num {
+            if self.bucket_exists[i] {
+                for j in 0..self.buckets[i].forward_index {
+                    let j = j as usize;
+                    string_vec.push(
+                        self.string[(self.buckets[i].data[j].index)..(length - 1)]
+                            .iter()
+                            .map(|x| *x as u8 as char)
+                            .collect(),
+                    );
+                }
+                for j in (self.buckets[i].backward_index + 1)..(self.buckets[i].size as i32) {
+                    let j = j as usize;
+                    string_vec.push(
+                        self.string[(self.buckets[i].data[j].index)..(length - 1)]
+                            .iter()
+                            .map(|x| *x as u8 as char)
+                            .collect(),
+                    );
+                }
+            }
+        }
+        string_vec
+    }
 
     fn suffix_array_to_index_vec(&self) -> Vec<usize> {
         let mut index_vec = vec![];
@@ -248,7 +251,7 @@ fn construst_suffix_array(
         };
         length
     ]; // 各 suffix を管理するための表
-    let mut lms_ids = vec![0; length];
+    let mut lms_ids = vec![];
     let mut lms_index_to_id = vec![0; length];
     let mut lms_num = 0;
     table[0].is_lms = false;
@@ -272,7 +275,7 @@ fn construst_suffix_array(
     for i in 1..length {
         table[i].is_lms = table[i - 1].suffix_type == L && table[i].suffix_type == S;
         if table[i].is_lms {
-            lms_ids[lms_num] = i;
+            lms_ids.push(i);
             lms_index_to_id[i] = lms_num;
             lms_num += 1;
         }
@@ -291,7 +294,7 @@ fn construst_suffix_array(
       (3) induced_sort() 後のLMSの順番に、対応する LMS-substring に番号をつける(0,1,2,...)
       (4) この数字を文字だと思って、元の文字列に出現していた順に並べて文字列を作る(例. 2310)
       (5) この文字列に対し construct_suffix_array()
-      (6) 作成したsuffix arrayから順に対応する LMS を取り出し(LMS のソート)バケットテーブルに入れる
+      (6) 作成した suffix array から順に対応する LMS を取り出し(LMS のソート)バケットテーブルに入れる
       (7) induced_sort() 実行
       終わり
     */
@@ -309,7 +312,7 @@ fn construst_suffix_array(
 
     let mut cnt = 0;
     let mut before_substring: &[usize] = &[];
-    let mut next_counts = vec![0; length];
+    let mut next_counts = vec![0; lms_num];
     for i in 0..bt_lms_substring.bucket_num {
         if bt_lms_substring.bucket_exists[i] {
             for j in (bt_lms_substring.buckets[i].backward_index + 1)
@@ -345,7 +348,7 @@ fn construst_suffix_array(
 
     // (4) この数字を文字だと思って、元の文字列に出現していた順に並べて文字列を作る(例. 2310)
     // 実際には usize の配列である(例. {2,3,1,0})
-    let mut sorted_substring_ids = vec![0; length];
+    let mut sorted_substring_ids = vec![0; lms_num];
     let mut substring_first_to_lms_index = vec![0; lms_num]; // substring の開始位置から対応する LMS の index を求める
     for i in 0..lms_num {
         sorted_substring_ids[i] = lms_index_to_substring_index[lms_ids[i]];
@@ -366,7 +369,7 @@ fn construst_suffix_array(
     // (6) 作成した suffix array から順に対応するLMSを取り出し(LMSのソート)バケットテーブルに入れる
     // このときは取り出した順とは逆に各バケットの下から入れていく
 
-    // まずLMSを順に取り出して sorted_lms_ids に入れる
+    // まず LMS を順に取り出して sorted_lms_ids に入れる
     let mut sorted_lms_ids = vec![0; lms_num];
     cnt = 0;
     for i in 0..bt_lms_sort.bucket_num {
@@ -410,7 +413,7 @@ pub fn sais(string: &String) -> Vec<usize> {
     usize_string.push('\0' as usize);
     counts[0] = 1; // '\0'の出現回数は1
 
-    // suffix array(完成)用のBucket Table
+    // suffix array(完成)用の Bucket Table
     let mut bt_suffix_array = BucketTable::new(counts.clone(), 128, usize_string.clone());
 
     construst_suffix_array(&mut bt_suffix_array, &usize_string, length, true, counts);
